@@ -1,35 +1,25 @@
-package src;
+package com.uel.biblioteca.model;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Item {
     //Cada Item tem um livro associado
 	Livro livro;
     Date dataDevolucao;
     
-    //Quando um item é criado, um livro é associado a ele
+    //Quando um item ï¿½ criado, um livro ï¿½ associado a ele
 	public Item(Livro livro) {
 		super();
 		this.livro = livro;
 		
-	}
-
-
-	public Date getDataDevolucao() {
-		return dataDevolucao;
-	}
-
-	public void setDataDevolucao(Date dataDevolucao) {
-		this.dataDevolucao = dataDevolucao;
-	}
-	
-	public Livro getLivro() {
-		return livro;
-	}
-
-	public void setLivro(Livro livro) {
-		this.livro = livro;
 	}
 	
 	//Metodo para calcular a data de Devolucao de cada Item

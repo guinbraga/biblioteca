@@ -1,30 +1,24 @@
-package src;
+package com.uel.biblioteca.model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class Emprestimo {
 
-	Date dataEmprestimo = new Date();
-	Date dataPrevista = new Date();
-	Date data_aux = new Date();
+	private Date dataEmprestimo;
+	private Date dataPrevista;
+	private Date data_aux;
 	String nome;
 	//Cada emprestimo tem um conjutno de itens
     List<Item> item = new ArrayList<Item>();
     int emprestimo=0;
 	
-	public Date getDataEmprestimo() {
-		return dataEmprestimo;
-	}
-
-	public void setDataEmprestimo(Date dataEmprestimo) {
-		this.dataEmprestimo = dataEmprestimo;
-	}
-
-	
-	// Metodo responsável por realizar o empréstimo
+	// Metodo responsï¿½vel por realizar o emprï¿½stimo
     public boolean emprestar(List<Livro> livros) {
 		// TODO Auto-generated method stub
     	int aux;
@@ -33,11 +27,11 @@ public class Emprestimo {
 		//Adiciona um novo item no cojunto de items, e passa o livro a ser associado a ele
     		item.add(new Item(livros.get(i))); 
          
-          //Chama o metodo para calcular a data de devolução caso tenha pelo menos um livro que possa ser emprestado
+          //Chama o metodo para calcular a data de devoluï¿½ï¿½o caso tenha pelo menos um livro que possa ser emprestado
     		CalculaDataDevolucao();
     		System.out.print("\nNumero de Livros Emprestados: "+this.emprestimo);
-    	    System.out.print("\nData de Empréstimo: "+this.dataEmprestimo);
-    	    System.out.print("\nData de Devolução: "+this.dataPrevista);
+    	    System.out.print("\nData de Emprï¿½stimo: "+this.dataEmprestimo);
+    	    System.out.print("\nData de Devoluï¿½ï¿½o: "+this.dataPrevista);
     		return true;
     	
     	
