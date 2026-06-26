@@ -3,14 +3,16 @@ package com.uel.biblioteca.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.uel.biblioteca.model.Aluno;
 import com.uel.biblioteca.model.Livro;
 
 public class BibliotecaController {
 
-	 public boolean emprestar(String aluno, int[] prazos, int num)
-	  {
+	 public boolean emprestar(String aluno, int[] prazos, int num) {
+		 
 		  boolean retorno=true;
-		  /*Aqui voc� deve instaciar um objeto aluno*/
+		  
+		  Aluno a = new Aluno();
 		  
 		  //Verifica se o aluno existe
 		  if (!a.verficaAluno())
@@ -54,5 +56,6 @@ public class BibliotecaController {
 		  else
 			  return retorno;
 	  }
+	  
 	
 }

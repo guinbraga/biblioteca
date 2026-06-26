@@ -41,6 +41,6 @@ public class Aluno {
 		/* Aqui voc� deve intanciar um objeto emprestimo */
 		/* Aqui voc� deve chamar o metodo emprestar da classe empresitmo*/
 		
-		
+		return false;
 	}
 }
