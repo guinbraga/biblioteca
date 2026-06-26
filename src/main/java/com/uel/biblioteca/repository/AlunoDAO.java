@@ -7,5 +7,7 @@ import com.uel.biblioteca.model.Aluno;
 
 @Repository
 public interface AlunoDAO extends JpaRepository<Aluno, Long> {
+	
+	Aluno findByRA(String ra);
 
 }

@@ -26,9 +26,7 @@ public class Aluno {
     @Column(nullable = false, unique = true)
     private String RA;
     
-    public String getNome() {
-        return RA;
-    }
+    private String nome;
     
     public void setNome(String nome) {
         this.RA = nome;
@@ -46,18 +44,17 @@ public class Aluno {
         }
     }
     
-    public boolean verificaDebito() {      
-        // Instancia um objeto debito
-        Debito debito = new Debito(Integer.parseInt(this.RA)); 
-        /* Aqui voce deve chamar o metodo verificaDebito da classe debito */
-        return false;
+    public boolean verificaDebito() {
+        // Padrão Expert: O aluno possui a informação do seu RA e verifica seu débito
+        Debito debito = new Debito(Integer.parseInt(this.RA));
+        return debito.verificaDebito(); 
     }
-    
-    // Metodo que delega a funcionalidade de emprestar para a classe emprestimo
-    public boolean emprestar(List<Livro> livros) {
-        /* Aqui voce deve instanciar um objeto emprestimo */
-        /* Aqui voce deve chamar o metodo emprestar da classe emprestimo */
-        
-        return false;
+
+    // Padrão Creator: O Aluno é o responsável por criar (instanciar) o Empréstimo
+    public Emprestimo emprestar(List<Livro> livros) {
+        Emprestimo novoEmprestimo = new Emprestimo();
+        novoEmprestimo.setAluno(this); 
+        novoEmprestimo.emprestar(livros);
+        return novoEmprestimo;
     }
 }
