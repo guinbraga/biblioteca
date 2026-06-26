@@ -1,5 +1,10 @@
 package com.uel.biblioteca.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,18 +12,26 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "debitos")
 public class Debito {
-	
-	private int codigoAluno;
-	
-	public boolean verificaDebito()
-	{
-	//codigo aleatorio para definir se o aluno tem d�bito
-	//� necess�rio fazer a verifica��o de forma persistente
-	if(this.codigoAluno == 4)
-		 return false;
-	 else
-		return true;
-	}
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private int codigoAluno;
+
+    public Debito(int codigoAluno) {
+        this.codigoAluno = codigoAluno;
+    }
+
+    // método a ser complementado
+    public boolean verificaDebito() {
+        if(this.codigoAluno == 4) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

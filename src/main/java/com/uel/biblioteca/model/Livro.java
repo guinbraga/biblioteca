@@ -1,5 +1,6 @@
 package com.uel.biblioteca.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,18 +8,26 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "livros")
 public class Livro {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private int codigo;
 
     // Autor e Área serão transformados em classes próprias no futuro, igual ao Titulo.
     private String autor;
     private String area;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "titulo_id")
     private Titulo titulo;
 
+    @Column(name = "exemplar_biblioteca")
     private boolean exemplarBiblioteca; // Define se é um livro restrito à biblioteca
 
     public Livro(int codigo) {

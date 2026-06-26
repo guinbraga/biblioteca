@@ -12,6 +12,8 @@ public class BibliotecaController {
 		 
 		  boolean retorno=true;
 		  
+		  List<Integer> codigos = List.of();
+		  
 		  Aluno a = new Aluno();
 		  
 		  //Verifica se o aluno existe
@@ -36,8 +38,9 @@ public class BibliotecaController {
 		     
 			  /*Para cada livro verifica  se � exemplar da biblioteca 
 	                   e s� deixar� emprestar os livros que n�o s�o */
-	                  for(int i=0; i< num;i++)
-			   {   Livro l = new Livro(codigos[i]);
+              for(int i=0; i< num;i++)  {   
+            	  
+            	  Livro l = new Livro(codigos.get(0));
 			     //caso o livro n�o seja exemplar da biblioteca permite emprestar  
 			     if (!l.verificaLivro())
 				   livros.add(l); 

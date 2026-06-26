@@ -1,8 +1,13 @@
 package com.uel.biblioteca.model;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,26 +15,27 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "itens")
 public class Item {
-    //Cada Item tem um livro associado
-	Livro livro;
-    Date dataDevolucao;
-    
-    //Quando um item � criado, um livro � associado a ele
-	public Item(Livro livro) {
-		super();
-		this.livro = livro;
-		
-	}
-	
-	//Metodo para calcular a data de Devolucao de cada Item
-	public Date calculaDataDevolucao(Date data)
-	{  dataDevolucao=data;
-	   Calendar calendar = Calendar.getInstance();
-	   calendar.setTime(data);
-	   calendar.add(Calendar.DATE, livro.verPrazo());
-           dataDevolucao = calendar.getTime();
-	   return dataDevolucao;
-	}
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    private Livro livro;
+    
+    private LocalDate dataDevolucao;
+
+    // Quando um item e criado, um livro e associado a ele
+    public Item(Livro livro) {
+        this.livro = livro;
+    }
+
+    // Metodo para calcular a data de Devolucao de cada Item
+    public LocalDate calculaDataDevolucao(LocalDate data) {
+        this.dataDevolucao = data.plusDays(livro.verPrazo());
+        return this.dataDevolucao;
+    }
 }
