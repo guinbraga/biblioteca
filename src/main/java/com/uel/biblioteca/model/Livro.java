@@ -23,7 +23,7 @@ public class Livro {
     private String autor;
     private String area;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "titulo_id")
     private Titulo titulo;
 

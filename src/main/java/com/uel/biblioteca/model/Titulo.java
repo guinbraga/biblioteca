@@ -21,6 +21,8 @@ public class Titulo {
     private Long id;
     
     private int prazo;
+    
+    private String nome;
 
     public Titulo(int codigo) {
         this.prazo = codigo + 1;
