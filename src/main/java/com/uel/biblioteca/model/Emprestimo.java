@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -28,54 +30,56 @@ public class Emprestimo {
     private Long id;
 
     private LocalDate dataEmprestimo;
-
     private LocalDate dataPrevista;
 
     @Transient
     private LocalDate data_aux;
 
-    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno aluno;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Item> item = new ArrayList<>();
 
-    private int emprestimo = 0;
+    // Construtor auxiliar para facilitar o padrão Creator
+    public Emprestimo(Aluno aluno) {
+        this.aluno = aluno;
+        this.dataEmprestimo = LocalDate.now();
+    }
 
     public boolean emprestar(List<Livro> livros) {
-        for (int i = 0; i < livros.size(); i++) {
-            item.add(new Item(livros.get(i)));
-        }
+        if (livros == null || livros.isEmpty()) return false;
 
+        for (Livro livro : livros) {
+            item.add(new Item(livro));
+        }
+        
         CalculaDataDevolucao();
-        System.out.print("\nNumero de Livros Emprestados: " + this.emprestimo);
-        System.out.print("\nData de Emprestimo: " + this.dataEmprestimo);
-        System.out.print("\nData de Devolucao: " + this.dataPrevista);
+        
         return true;
     }
 
-    private LocalDate CalculaDataDevolucao() {
-        // Pega a data atual do sistema
+    private void CalculaDataDevolucao() {
         LocalDate dataAtual = LocalDate.now();
 
-        for (int j = 0; j < item.size(); j++) {
-            
-        	this.data_aux = item.get(j).calculaDataDevolucao(dataAtual);
-            
-            if (this.dataPrevista == null || this.dataPrevista.isBefore(data_aux)) {
-            	this.dataPrevista = this.data_aux;
+        // Calcula o maior prazo individual
+        for (Item it : item) {
+            LocalDate dataAux = it.calculaDataDevolucao(dataAtual);
+            if (this.dataPrevista == null || this.dataPrevista.isBefore(dataAux)) {
+                this.dataPrevista = dataAux;
             }
         }
         
+        // Aplica a regra de +2 dias para cada livro extra (após o 2º)
         if (item.size() > 2) {
             int tam = item.size() - 2;
-            // O plusDays() substitui todas aquelas 4 linhas do Calendar
             this.dataPrevista = this.dataPrevista.plusDays(tam * 2);
         }
         
-        for (int j = 0; j < item.size(); j++) {
-            item.get(j).setDataDevolucao(this.dataPrevista);
+        // Atualiza cada item com a data final calculada
+        for (Item it : item) {
+            it.setDataDevolucao(this.dataPrevista);
         }
-
-        return this.dataPrevista;
     }
 }
