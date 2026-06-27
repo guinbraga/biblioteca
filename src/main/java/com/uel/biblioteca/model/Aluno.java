@@ -29,7 +29,7 @@ public class Aluno {
     private String nome;
     
     public void setNome(String nome) {
-        this.RA = nome;
+        this.nome = nome;
     }
     
     public boolean verficaAluno() {   

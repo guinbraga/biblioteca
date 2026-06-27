@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,14 +27,18 @@ public class LivroController {
     private LivroDAO livroDAO;
 
     @PostMapping
-    public ResponseEntity<Livro> cadastrarLivro(@RequestBody Livro livro) {
+    public ResponseEntity<?> cadastrarLivro(@RequestBody Livro livro) {
+        if (livroDAO.findByCodigo(livro.getCodigo()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Já existe um livro com o código " + livro.getCodigo() + "!");
+        }
         Livro livroSalvo = livroDAO.save(livro);
         return ResponseEntity.ok(livroSalvo);
     }
     
     @GetMapping
     public ResponseEntity<List<Livro>> listarLivros() {
-        List<Livro> livros = livroDAO.findAll();
+        List<Livro> livros = livroDAO.findAllComTitulo();
         return ResponseEntity.ok(livros);
     }
     
